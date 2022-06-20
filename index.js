@@ -1,4 +1,79 @@
 /* Your Code Here */
+function createEmployeeRecord(arr) {
+    return {
+        firstName: arr[0],
+        familyName: arr[1],
+        title: arr[2],
+        payPerHour: arr[3],
+        timeInEvents: [],
+        timeOutEvents: []
+    }
+}
+
+function createEmployeeRecords(arrs){
+    let employees = []
+    for(const arr of arrs){
+        employees.push(createEmployeeRecord(arr))
+    }
+    return employees
+}
+
+function createTimeInEvent(timeStamp) {
+    const date = timeStamp.split(" ")[0]
+    const hour = parseInt(timeStamp.split(" ")[1])
+    let obj = {
+        type: "TimeIn",
+        hour: hour,
+        date: date
+    }
+    this["timeInEvents"].push(obj)
+    return this
+}
+
+function createTimeOutEvent(timeStamp) {
+    const date = timeStamp.split(" ")[0]
+    const hour = parseInt(timeStamp.split(" ")[1])
+    let obj = {
+        type: "TimeOut",
+        hour: hour,
+        date: date
+    }
+    this["timeOutEvents"].push(obj)
+    return this
+}
+
+function getHours(arr, date){
+    for(let i=0; i<arr.length; i++) {
+        if(arr[i].date === date){
+            return arr[i].hour
+        }
+    }
+}
+
+function hoursWorkedOnDate(date) {
+    const timeIn = getHours(this.timeInEvents, date)
+    const timeOut = getHours(this.timeOutEvents, date)
+    return (timeOut - timeIn) / 100
+}
+
+function wagesEarnedOnDate(date) {
+    const hoursWorked = hoursWorkedOnDate.call(this, date)
+    const rate = this["payPerHour"]
+    return hoursWorked * rate
+}
+
+function findEmployeeByFirstName(srcArray, firstName) {
+    return srcArray.find(function(employee){
+        return employee.firstName === firstName
+    })
+}
+
+function calculatePayroll(employeeRecords) {
+    return employeeRecords.reduce(function(memo, rec){
+        return memo + allWagesFor.call(rec)
+    }, 0)
+}
+
 
 /*
  We're giving you this function. Take a look at it, you might see some usage
